@@ -32,3 +32,24 @@ Weighted quick-union
 - Avoid tall trees
 - Keep track of the size of each tree
 - Balance by linking root of smaller tree to root of large one
+
+Data Structure : Same as QU but with and extra array sz[i] to count the numebr of objects in the tree rooted at i.
+
+Find: Identical
+
+Union: Modify QU to
+- Link root of smaller tree to larger tree
+- Update the sz[] array
+
+```java
+int i = root(p);
+int j = root(q);
+if(i == j) return;
+if(sz[i] > sz[j]){
+  id[j] = i;
+  sz[i] += sz[j];
+}else{
+  id[i] = j;
+  sz[j] += sz[i];
+}
+```

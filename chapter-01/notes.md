@@ -53,3 +53,11 @@ if(sz[i] > sz[j]){
   sz[j] += sz[i];
 }
 ```
+Running Time:
+
+- Find: takes time proportional to depth of p and q
+- Union: takes constant time, given roots.
+
+Proposition:
+
+Depth of any node x is at most *lg N*

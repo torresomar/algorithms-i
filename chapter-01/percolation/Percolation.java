@@ -16,29 +16,26 @@ public class Percolation {
       }
    }// create N-by-N grid, with all sites blocked
    public void open(int i, int j){
-      checkIndexBounds(i,j);
-      int row = i - 1;
-      int col = j - 1;
-      if(id[row][col] == OPEN) return;
+      int[] index = getShiftedIndex(i,j);
+      if(id[index[0]][index[1]] == OPEN) return;
+      id[index[0]][index[1]] = OPEN;
       // Check multiple cases of union
-      if(row == 1 && col == 1){
-      }
-      id[i][j] = OPEN;
+      System.out.println("Trying to open " + "[" + i + "," + j + "] => QU " + gridToArray(i,j));
    }// open site (row i, column j) if it is not open already
    public boolean isOpen(int i, int j){
-      checkIndexBounds(i,j);
-      return id[i][j] == OPEN;
+      int[] index = getShiftedIndex(i,j);
+      return id[index[0]][index[1]] == OPEN;
    }// is site (row i, column j) open?
    public boolean isFull(int i, int j){
-      checkIndexBounds(i,j);
-      return id[i][j] == CLOSED;
+      int[] index = getShiftedIndex(i,j);
+      return id[index[0]][index[1]] == CLOSED;
    }// is site (row i, column j) full?
    public boolean percolates(){
-      return quickUnionHelper.connected(0,(N * N) + 1);
+      return quickUnionHelper.connected(0,(size * size) + 1);
    }// does the system percolate?
    public int gridToArray(int i, int j){
-      checkIndexBounds(i,j); 
-      return (i * size) + j + 1;
+      int[] index = getShiftedIndex(i,j);
+      return (index[0] * size) + index[1] + 1;
    }
    public void printPercolation(){
       for(int i = 0; i < size; i++){
@@ -49,11 +46,14 @@ public class Percolation {
       }
    }
    public void checkIndexBounds(int i, int j){
-      i = i - 1;
-      j = j - 1;
       if(i < 0 || j < 0 || i > size || j > size ){
          throw new IndexOutOfBoundsException("Illegal parameter value.");
       }
+   }
+   public int[] getShiftedIndex(int i, int j){
+      checkIndexBounds(i,j);
+      int[] shifted = {i - 1, j - 1};
+      return shifted;
    }
    public static void main(String[] args){
       int gridSize = Integer.parseInt(args[0]);
@@ -62,7 +62,11 @@ public class Percolation {
       // per.checkIndexBounds(gridSize + 1,0);
       // per.checkIndexBounds(0,0);
       int array = per.gridToArray(1,1);
-      System.out.println(array);
       per.printPercolation();
+      per.open(2,1);
+      per.printPercolation();
+      System.out.println("[2,1] is full? " + per.isFull(2,1));
+      System.out.println("[2,1] is open? " + per.isOpen(2,1));
+      per.open(2,1);
    }// test client (optional)
 }

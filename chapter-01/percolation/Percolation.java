@@ -19,33 +19,35 @@ public class Percolation {
       int[] index = getShiftedIndex(i,j);
       if(id[index[0]][index[1]] == OPEN) return;
       id[index[0]][index[1]] = OPEN;
-      // System.out.println(index[0] + " " + index[1]);
       if(i == 1){ //Upper node
-         // System.out.println("Trying to connect to upper");
          quickUnionHelper.union(0,gridToArray(i,j));
       }else if(i == size){
-         // System.out.println("Trying to connect to lower");
          quickUnionHelper.union((size * size) + 1 ,gridToArray(i,j));
       }
-
       // System.out.println("index " + index[0]+","+index[1]);
       // System.out.println("i,j " + i + "," + j);
       if(j < (size + 1) && j > 1){
          if(id[index[0]][index[1] - 1] == OPEN){
-            System.out.println("Left");
             quickUnionHelper.union(gridToArray(i,j) ,gridToArray(i,j - 1));
          }
       }
       if(j > 0 && j < size){
          if(id[index[0]][index[1] + 1] == OPEN){
-            System.out.println("Right");
             quickUnionHelper.union(gridToArray(i,j) ,gridToArray(i,j + 1));
          }
       }
       if(i > 1 && i < size){
-         // if(id[index[0]
+         if(id[index[0] + 1][index[1]] == OPEN){
+            quickUnionHelper.union(gridToArray(i,j) ,gridToArray(i + 1,j));
+         }
+      }
+      if(i > 1 && i < (size + 1)){
+         if(id[index[0] - 1][index[1]] == OPEN){
+            quickUnionHelper.union(gridToArray(i,j) ,gridToArray(i - 1,j));
+         }
       }
    }// open site (row i, column j) if it is not open already
+
    public boolean isOpen(int i, int j){
       int[] index = getShiftedIndex(i,j);
       return id[index[0]][index[1]] == OPEN;
@@ -81,25 +83,27 @@ public class Percolation {
       int[] shifted = {i - 1, j - 1};
       return shifted;
    }
+   public int getSize(){
+      return size;
+   }
    //Test
    public static void main(String[] args){
+      int tests = 1000;
       int gridSize = Integer.parseInt(args[0]);
-      Percolation per = new Percolation(gridSize);
-      // Check for index exceptions
-      int array = per.gridToArray(1,1);
-      // per.printPercolation();
-      // per.printPercolation();
-      // System.out.println("[2,1] is full? " + per.isFull(2,1));
-      // System.out.println("[2,1] is open? " + per.isOpen(2,1));
-      per.open(2,1);
-      per.open(3,1);
-      per.open(2,2);
-      per.open(2,9);
-      per.open(9,2);
-      per.open(9,1);
-      per.open(2,10);
-      per.open(9,10);
-      per.open(9,9);
-      per.printPercolation();
+      Percolation p = new Percolation(gridSize);
+      int col,row,count;
+      double sum = 0.0;
+      for(int i = 0; i < tests; i++){
+         count = 0;  
+         while(!p.percolates()){
+            row = StdRandom.uniform(gridSize) + 1;
+            col = StdRandom.uniform(gridSize) + 1;
+            if (p.isFull(row, col)) {
+               p.open(row, col);
+               count++;
+            }
+         }
+         sum += count;
+      }
    }// test client (optional)
 }

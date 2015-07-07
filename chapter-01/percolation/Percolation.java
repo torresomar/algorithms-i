@@ -8,7 +8,7 @@ public class Percolation {
       id = new int[N][N];
       size = N;
       // Transform the problem into a 1d array + 2 due to the offset
-      quickUnionHelper = new WeightedQuickUnionUF((N * N) + 2); 
+      quickUnionHelper = new WeightedQuickUnionUF((N * N) + 2); //Imaginary nodes t/b
       for(int i = 0; i < N; i++){
          for(int j = 0; j < N; j++){
             id[i][j] = CLOSED;
@@ -19,8 +19,32 @@ public class Percolation {
       int[] index = getShiftedIndex(i,j);
       if(id[index[0]][index[1]] == OPEN) return;
       id[index[0]][index[1]] = OPEN;
+      // System.out.println(index[0] + " " + index[1]);
+      if(i == 1){ //Upper node
+         // System.out.println("Trying to connect to upper");
+         quickUnionHelper.union(0,gridToArray(i,j));
+      }else if(i == size){
+         // System.out.println("Trying to connect to lower");
+         quickUnionHelper.union((size * size) + 1 ,gridToArray(i,j));
+      }
+      System.out.println(index[0]+","+index[1]);
+      // if(i < size && i > 1 && id[index[0]][index[1] - 1] == OPEN){ //Right handed elements
+      //    System.out.println("Open my left " + gridToArray(i, j - 1));
+      //    // quickUnionHelper.union(gridToArray(i,j),gridToArray(i - 1, j));
+      // }
+      // if((i - 1) 
+      if(i < size && i > 1 && j < size && j > 1){ //Middle vertical
+         if(id[index[0]][index[1] - 1] == OPEN){
+            System.out.println("Open my left " + gridToArray(i, j - 1));
+         }
+      //    quickUnionHelper.union(gridToArray(i,j),gridToArray(i - 1, j));
+      //    quickUnionHelper.union(gridToArray(i,j),gridToArray(i, j - 1));
+      //    quickUnionHelper.union(gridToArray(i,j),gridToArray(i - 1, j));
+      //    quickUnionHelper.union(gridToArray(i,j),gridToArray(i - 1, j));
+      //    System.out.println("Inner grid");
+      }
       // Check multiple cases of union
-      System.out.println("Trying to open " + "[" + i + "," + j + "] => QU " + gridToArray(i,j));
+      // System.out.println("Trying to open " + "[" + i + "," + j + "] => QU " + gridToArray(i,j));
    }// open site (row i, column j) if it is not open already
    public boolean isOpen(int i, int j){
       int[] index = getShiftedIndex(i,j);
@@ -33,6 +57,8 @@ public class Percolation {
    public boolean percolates(){
       return quickUnionHelper.connected(0,(size * size) + 1);
    }// does the system percolate?
+
+   // Additional API methods
    public int gridToArray(int i, int j){
       int[] index = getShiftedIndex(i,j);
       return (index[0] * size) + index[1] + 1;
@@ -55,18 +81,26 @@ public class Percolation {
       int[] shifted = {i - 1, j - 1};
       return shifted;
    }
+   //Test
    public static void main(String[] args){
       int gridSize = Integer.parseInt(args[0]);
       Percolation per = new Percolation(gridSize);
       // Check for index exceptions
-      // per.checkIndexBounds(gridSize + 1,0);
-      // per.checkIndexBounds(0,0);
       int array = per.gridToArray(1,1);
-      per.printPercolation();
+      // per.printPercolation();
+      per.open(1,1);
+      // per.printPercolation();
+      // System.out.println("[2,1] is full? " + per.isFull(2,1));
+      // System.out.println("[2,1] is open? " + per.isOpen(2,1));
+      per.open(1,1);
+      per.open(1,1);
       per.open(2,1);
+      per.open(10,1);
+      per.open(2,2);
+      per.open(2,9);
+      per.open(9,2);
+      per.open(9,9);
+      per.open(2,10);
       per.printPercolation();
-      System.out.println("[2,1] is full? " + per.isFull(2,1));
-      System.out.println("[2,1] is open? " + per.isOpen(2,1));
-      per.open(2,1);
    }// test client (optional)
 }

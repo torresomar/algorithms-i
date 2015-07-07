@@ -27,24 +27,24 @@ public class Percolation {
          // System.out.println("Trying to connect to lower");
          quickUnionHelper.union((size * size) + 1 ,gridToArray(i,j));
       }
-      System.out.println(index[0]+","+index[1]);
-      // if(i < size && i > 1 && id[index[0]][index[1] - 1] == OPEN){ //Right handed elements
-      //    System.out.println("Open my left " + gridToArray(i, j - 1));
-      //    // quickUnionHelper.union(gridToArray(i,j),gridToArray(i - 1, j));
-      // }
-      // if((i - 1) 
-      if(i < size && i > 1 && j < size && j > 1){ //Middle vertical
+
+      // System.out.println("index " + index[0]+","+index[1]);
+      // System.out.println("i,j " + i + "," + j);
+      if(j < (size + 1) && j > 1){
          if(id[index[0]][index[1] - 1] == OPEN){
-            System.out.println("Open my left " + gridToArray(i, j - 1));
+            System.out.println("Left");
+            quickUnionHelper.union(gridToArray(i,j) ,gridToArray(i,j - 1));
          }
-      //    quickUnionHelper.union(gridToArray(i,j),gridToArray(i - 1, j));
-      //    quickUnionHelper.union(gridToArray(i,j),gridToArray(i, j - 1));
-      //    quickUnionHelper.union(gridToArray(i,j),gridToArray(i - 1, j));
-      //    quickUnionHelper.union(gridToArray(i,j),gridToArray(i - 1, j));
-      //    System.out.println("Inner grid");
       }
-      // Check multiple cases of union
-      // System.out.println("Trying to open " + "[" + i + "," + j + "] => QU " + gridToArray(i,j));
+      if(j > 0 && j < size){
+         if(id[index[0]][index[1] + 1] == OPEN){
+            System.out.println("Right");
+            quickUnionHelper.union(gridToArray(i,j) ,gridToArray(i,j + 1));
+         }
+      }
+      if(i > 1 && i < size){
+         // if(id[index[0]
+      }
    }// open site (row i, column j) if it is not open already
    public boolean isOpen(int i, int j){
       int[] index = getShiftedIndex(i,j);
@@ -72,7 +72,7 @@ public class Percolation {
       }
    }
    public void checkIndexBounds(int i, int j){
-      if(i < 0 || j < 0 || i > size || j > size ){
+      if(i < 1 || j < 1 || i > size || j > size ){
          throw new IndexOutOfBoundsException("Illegal parameter value.");
       }
    }
@@ -88,19 +88,18 @@ public class Percolation {
       // Check for index exceptions
       int array = per.gridToArray(1,1);
       // per.printPercolation();
-      per.open(1,1);
       // per.printPercolation();
       // System.out.println("[2,1] is full? " + per.isFull(2,1));
       // System.out.println("[2,1] is open? " + per.isOpen(2,1));
-      per.open(1,1);
-      per.open(1,1);
       per.open(2,1);
-      per.open(10,1);
+      per.open(3,1);
       per.open(2,2);
       per.open(2,9);
       per.open(9,2);
-      per.open(9,9);
+      per.open(9,1);
       per.open(2,10);
+      per.open(9,10);
+      per.open(9,9);
       per.printPercolation();
    }// test client (optional)
 }

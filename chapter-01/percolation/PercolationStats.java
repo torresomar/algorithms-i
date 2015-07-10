@@ -40,10 +40,8 @@ public class PercolationStats {
          }
          double fraction = (double) count/ (gridSize  * gridSize);
          fra[i] = fraction;
-         System.out.println(count + " " + sum);
       }
       System.out.println(mean(fra));
-      System.out.println(sum/numTests);
    }
    public static double mean(double[] a) {
       if (a.length == 0) return Double.NaN;

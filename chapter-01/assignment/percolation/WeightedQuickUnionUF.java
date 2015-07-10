@@ -110,9 +110,15 @@ public class WeightedQuickUnionUF {
       }
       count--;
    }
-   public void print(){
-      for(int i = 0; i < size.length; i ++){
-         System.out.print(size[i] + " ");
+   public void print(int n){
+      int br = 0;
+      for(int i = 1; i < size.length - 1; i ++){
+         if(br == n){
+            br = 0;
+            System.out.println("");
+         }
+         System.out.print(parent[i] + " ");
+         br++;
       }
       System.out.println("");
    }

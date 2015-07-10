@@ -46,6 +46,8 @@ public class Percolation {
             quickUnionHelper.union(gridToArray(i,j) ,gridToArray(i - 1,j));
          }
       }
+      this.printPercolation();
+      quickUnionHelper.print();
    }// open site (row i, column j) if it is not open already
 
    public boolean isOpen(int i, int j){
@@ -66,12 +68,15 @@ public class Percolation {
       return (index[0] * size) + index[1] + 1;
    }
    public void printPercolation(){
+      System.out.println("");
+      System.out.println("------------- START -----------------------");
       for(int i = 0; i < size; i++){
          for(int j = 0; j < size; j++){
             System.out.print(id[i][j] + " ");
          }
          System.out.print("\n");
       }
+      System.out.println("------------- END -----------------------");
    }
    public void checkIndexBounds(int i, int j){
       if(i < 1 || j < 1 || i > size || j > size ){

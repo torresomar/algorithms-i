@@ -1,4 +1,4 @@
-class PercolationStats{
+public class PercolationStats{
    private int numTests;
    private int gridSize;
    private double[] fractions;

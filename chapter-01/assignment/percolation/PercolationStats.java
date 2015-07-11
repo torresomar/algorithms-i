@@ -1,25 +1,25 @@
-public class PercolationStats{
+public class PercolationStats {
    private int numTests;
    private int gridSize;
    private double[] fractions;
-   public PercolationStats(int N, int T){
-      if(N == 0 || T == 0){
+   public PercolationStats(int N, int T) {
+      if (N == 0 || T == 0) {
          throw new IndexOutOfBoundsException("Illegal parameter value.");
       }
       numTests = T;
       gridSize = N;
-      int col,row,size,count;
+      int col, row, size, count;
       double sum = 0.0;
       Percolation p;
       fractions = new double[gridSize];
-      for(int i = 0; i < numTests; i++){
+      for (int i = 0; i < numTests; i++) {
          count = 0;  
          p = new Percolation(gridSize);
-         while(!p.percolates()){
+         while (!p.percolates()) {
             row = StdRandom.uniform(gridSize) + 1;
             col = StdRandom.uniform(gridSize) + 1;
-            if(!p.isOpen(row,col)){
-               p.open(row,col);
+            if (!p.isOpen(row, col)) {
+               p.open(row, col);
                count++;
             }
          }
@@ -39,10 +39,10 @@ public class PercolationStats{
    public double confidenceHi() {
       return mean() + ((1.96 * stddev()) / Math.sqrt(numTests));
    }
-   public static void main(String args[]){
+   public static void main (String args []) {
       int size = Integer.parseInt(args[0]);
       int tests = Integer.parseInt(args[1]);
-      PercolationStats ps = new PercolationStats(size,tests);
+      PercolationStats ps = new PercolationStats(size, tests);
       String confidence = ps.confidenceLo() + ", " + ps.confidenceHi();
       StdOut.println("mean                    = " + ps.mean());
       StdOut.println("stddev                  = " + ps.stddev());

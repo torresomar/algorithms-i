@@ -21,17 +21,29 @@ public class Percolation {
       j = j - 1;
       id[i][j] = OPEN;
       if(i == 0){
-         System.out.println("Union with top");
+         // System.out.println("Union with top");
          qu.union(0,gridToArray(i,j));
       }
       if(i == (size - 1)){
-         System.out.println("Union with bottom");
+         // System.out.println("Union with bottom");
          qu.union((size * size) + 1,gridToArray(i,j));
       }
       if(j >= 0 && j < (size - 1) && id[i][j + 1] == OPEN){
-         System.out.println("Union with right");
+         // System.out.println("Union with right");
+         qu.union(gridToArray(i,j),gridToArray(i,j + 1));
       }
-
+      if(j >= 1 && j < size && id[i][j - 1] == OPEN){
+         // System.out.println("Union with left");
+         qu.union(gridToArray(i,j),gridToArray(i,j - 1));
+      }
+      if(i >= 0 && i < (size - 1) && id[i + 1][j] == OPEN){
+         // System.out.println("Union with bot");
+         qu.union(gridToArray(i,j),gridToArray(i + 1,j));
+      }
+      if(i >= 1 && i < size && id[i - 1][j] == OPEN){
+         // System.out.println("Union with bot");
+         qu.union(gridToArray(i,j),gridToArray(i - 1,j));
+      }
    }// open site (row i, column j) if it is not open already
 
    public boolean isOpen(int i, int j){
@@ -43,7 +55,7 @@ public class Percolation {
       return id[i - 1][j - 1] == FULL;
    }// is site (row i, column j) full?
    public boolean percolates(){
-      return true;
+      return qu.connected(0,(size * size) + 1);
    }// does the system percolate?
    public void checkIndex(int i,int j){
       if(i < 1 || i > size || j < 1 || j > size){
@@ -55,24 +67,32 @@ public class Percolation {
    }
    public void print(){
       System.out.println("");
-      System.out.println("------------- START -----------------------");
+      System.out.println("---- START ----"); 
+      System.out.println("1|2|3|4|5");
+      System.out.println("---------");
       for(int i = 0; i < size; i++){
          for(int j = 0; j < size; j++){
             System.out.print(id[i][j] + " ");
          }
          System.out.print("\n");
       }
-      System.out.println("------------- QU -----------------------");
+      System.out.println("---- QU ----");
       qu.print(size);
-      System.out.println("------------- END -----------------------");
+      System.out.println("---- END ----");
    }
    //Test
    public static void main(String[] args){
       Percolation p = new Percolation(5);
+      p.open(1,1);
       p.open(1,2);
       p.open(1,1);
       p.open(1,5);
+      p.open(2,4);
+      p.open(2,5);
       p.open(5,1);
+      p.open(4,1);
+      p.open(3,1);
+      p.open(2,1);
       p.print();
    }// test client (optional)
 }

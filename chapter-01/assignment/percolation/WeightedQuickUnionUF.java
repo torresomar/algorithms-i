@@ -117,7 +117,11 @@ public class WeightedQuickUnionUF {
             br = 0;
             System.out.println("");
          }
-         System.out.print(parent[i] + " ");
+         if(parent[i] < 10){
+            System.out.print(" " + parent[i] + " ");
+         }else{
+            System.out.print(parent[i] + " ");
+         }
          br++;
       }
       System.out.println("");

@@ -1,3 +1,4 @@
+// import java.util.*;
 public class Percolation {
    private static final int OPEN = 1;
    private static final int FULL = 0;
@@ -28,19 +29,19 @@ public class Percolation {
          // System.out.println("Union with bottom");
          qu.union((size * size) + 1, gridToArray(i, j));
       }
-      if (j >= 0 && j < (size - 1) && id[i][j + 1] == OPEN) {
+      if (j < (size - 1) && id[i][j + 1] == OPEN) {
          // System.out.println("Union with right");
          qu.union(gridToArray(i,j), gridToArray(i, j + 1));
       }
-      if (j >= 1 && j < size && id[i][j - 1] == OPEN) {
+      if (j >= 1 && id[i][j - 1] == OPEN) {
          // System.out.println("Union with left");
          qu.union(gridToArray(i,j), gridToArray(i, j - 1));
       }
-      if (i >= 0 && i < (size - 1) && id[i + 1][j] == OPEN) {
+      if (i < (size - 1) && id[i + 1][j] == OPEN) {
          // System.out.println("Union with bot");
          qu.union(gridToArray(i,j), gridToArray(i + 1, j));
       }
-      if (i >= 1 && i < size && id[i - 1][j] == OPEN) {
+      if (i >= 1 && id[i - 1][j] == OPEN) {
          // System.out.println("Union with bot");
          qu.union(gridToArray(i,j), gridToArray(i - 1, j));
       }
@@ -51,7 +52,7 @@ public class Percolation {
    } // is site (row i, column j) open?
    public boolean isFull(int i, int j){
       checkIndex(i, j);
-      return id[i - 1][j - 1] == FULL;
+      return qu.connected(0,gridToArray(i - 1,j - 1));
    } // is site (row i, column j) full?
    public boolean percolates() {
       return qu.connected(0, (size * size) + 1);
@@ -81,17 +82,15 @@ public class Percolation {
    }
    //Test
    public static void main(String[] args) {
-      Percolation p = new Percolation(5);
-      p.open(1, 1);
-      p.open(1, 2);
-      p.open(1, 1);
-      p.open(1, 5);
-      p.open(2, 4);
-      p.open(2, 5);
-      p.open(5, 1);
-      p.open(4, 1);
-      p.open(3, 1);
-      p.open(2, 1);
-      p.print();
+      // Scanner sc = new Scanner(System.in);
+      // int tests = sc.nextInt();
+      // Percolation p = new Percolation(tests);
+      // while(sc.hasNext()){
+      //    int i = sc.nextInt();
+      //    int j = sc.nextInt();
+      //    StdOut.println("OPEN [" + i + "," + j + "]");
+      //    p.open(i, j);
+      // }
+      // p.print();
    }
 }

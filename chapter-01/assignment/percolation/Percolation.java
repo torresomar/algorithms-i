@@ -101,6 +101,5 @@ public class Percolation {
       // p.open(4, 1);
       // p.open(3, 1);
       // p.open(2, 1);
-      // p.print();
    }
 }
